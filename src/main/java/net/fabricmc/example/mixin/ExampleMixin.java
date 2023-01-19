@@ -1,16 +1,17 @@
 package net.fabricmc.example.mixin;
 
-import net.fabricmc.example.ExampleMod;
-import net.minecraft.client.gui.screen.TitleScreen;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import net.fabricmc.example.ExampleInterface;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.*;
 
-@Mixin(TitleScreen.class)
-public class ExampleMixin {
-	@Inject(at = @At("HEAD"), method = "init()V")
-	private void init(CallbackInfo info) {
-		ExampleMod.LOGGER.info("This line is printed by an example mod mixin!");
+@Mixin(Screen.class)
+@Implements(@Interface(iface = ExampleInterface.class, prefix = "ei$"))
+public abstract class ExampleMixin {
+
+	@Intrinsic
+	public Text ei$getTitle() {
+		return Text.of("This is just for testing");
 	}
+
 }
